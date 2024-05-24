@@ -46,7 +46,6 @@ const getData = (): Object => {
 
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
-  console.log(process.env.NODE_ENV);
 
   return defineConfig({
     plugins: [
@@ -56,7 +55,7 @@ export default ({ mode }) => {
           pretty: true,
           basedir: path.resolve(__dirname, "src/html"),
         },
-        view: "./src/html/pages",
+        view: "html/pages",
         data: {
           data: getData(),
           baseUrl: process.env.VITE_BASE_URL,
