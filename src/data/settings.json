@@ -1,0 +1,35 @@
+{
+  "breakpoint": {
+    "lv1": 768,
+    "lv2": 1440
+  },
+  "design": {
+    "pc": {
+      "size": 1440,
+      "frame": 475
+    },
+    "sp": {
+      "size": 750,
+      "frame": 750
+    }
+  },
+  "font": {
+    "baseSize": 10,
+    "family": {
+      "ja": "YakuHanJP, 'Noto Sans JP', sans-serif;",
+      "en": "'Roboto', sans-serif;",
+      "yomogi": "'Yomogi', cursive;"
+    }
+  },
+  "color": {
+    "black": "#000000",
+    "darkGray": "#444444",
+    "gray": "#b6b6b6",
+    "purple": "#5f2683",
+    "lightPurple": "#baaac7",
+    "green": "#d2ff00",
+    "docomored": "#cc0033",
+    "white": "#ffffff"
+  },
+  "baseDuration": 0.8
+}
