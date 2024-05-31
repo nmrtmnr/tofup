@@ -18,7 +18,7 @@ lerna-debug.log*
 *.sln
 *.sw?
 
-dist
+# Dependency directories
 node_modules
 
 #env
@@ -27,3 +27,6 @@ node_modules
 .env.preview
 .env.staging
 .env.production
+
+# next.js build output
+.next/**/*
