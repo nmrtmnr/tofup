@@ -1,0 +1,84 @@
+//*** media query
+sp()
+  @media not screen and (min-width: (($bpLv1 + 1) * 1px))
+    {block}
+
+pc()
+  @media screen and (min-width: (($bpLv1 + 1) * 1px))
+    {block}
+  @media print
+    {block}
+
+b-vp($vp1 = ($bpLv1 + 1), $vp2 = $bpLv2)
+  @media screen and (min-width:( $vp1 * 1px)) and (max-width: ($vp2 * 1px))
+    {block}
+
+o-vp($vp = ($bpLv1 + 1))
+  @media screen and (min-width: ($vp * 1px))
+    {block}
+
+u-vp($vp = ($bpLv1 + 1))
+  @media not screen and (min-width: ($vp * 1px))
+    {block}
+
+land()
+  @media screen and (orientation: landscape)
+    {block}
+
+port()
+  @media screen and (orientation: portrait)
+    {block}
+
+//*** media (query) project customize
+//+++ 0px 〜 768px
+lv1()
+  @media not screen and (min-width: (($bpLv1 + 1) * 1px))
+    {block}
+
+//+++ 769px 〜 1366px
+lv2()
+  @media screen and (min-width: ($bpLv1 * 1px)) and (max-width: ($bpLv2 * 1px))
+    {block}
+
+//+++ 1367px 〜
+lv3()
+  @media not screen and (max-width: ($bpLv2 * 1px))
+    {block}
+
+//+++ 769px 〜
+o-lv1()
+  @media not screen and (max-width: ($bpLv1 * 1px))
+    {block}
+
+//+++ 1367px 〜
+o-lv2()
+  @media not screen and (max-width: ($bpLv2 * 1px))
+    {block}
+
+//+++ 〜 768px
+u-lv1()
+  @media not screen and (min-width: (($bpLv1 + 1) * 1px))
+    {block}
+
+//+++ 〜 1366px
+u-lv2()
+  @media not screen and (min-width: (($bpLv2 + 1) * 1px))
+    {block}
+
+//*** hover
+hover()
+  @media screen and (any-hover: hover)
+    &:hover
+      {block}
+
+//*** print
+print()
+  @media print
+    {block}
+
+//*** IE hack -> IE10 & IE11
+ie()
+  @media (-ms-high-contrast: none)
+    {block}
+  @media (-ms-high-contrast: active)
+    {block}

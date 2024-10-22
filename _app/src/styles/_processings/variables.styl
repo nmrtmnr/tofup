@@ -1,0 +1,69 @@
+/**
+ * gulp-stylus の rawDefine オプションで env を引き渡し
+ *
+ * gulpfile.js
+ * stylus({ rawDefine: { env: env }})
+ *
+ * https://www.npmjs.com/package/gulp-stylus
+ */
+
+/**
+ * 下記により "src/data/settings.json" の内容が変数として使用可能
+ * 各変数へのアクセス方法 → design-pc-size ..etc
+ *
+ * https://stylus-lang.com/docs/bifs.html#jsonpath-options
+ */
+json('../../data/settings.json')
+
+/**
+ * ↓↓↓ define variable ↓↓↓
+ */
+// *** paths
+// $imgPath = env.rootPath + path-asset + path-image
+// $movPath = env.rootPath + path-asset + path-movie
+
+// *** break point
+$bpLv1 = breakpoint-lv1
+$bpLv2 = breakpoint-lv2
+
+// *** design size
+$dsPc = design-pc-size
+$dsSp = design-sp-size
+
+// *** grid settings
+// +++ pc
+$gridNumPc = design-pc-grid-num
+$gridColPc = design-pc-grid-column
+$gridGutterPc = design-pc-grid-gutter
+$gridEdgePc = design-pc-grid-edge
+
+// +++ sp
+$gridNumSp = design-sp-grid-num
+$gridColSp = design-sp-grid-column
+$gridGutterSp = design-sp-grid-gutter
+$gridEdgeSp = design-sp-grid-edge
+
+// *** frame size
+// $frmPc = $gridColPc * $gridNumPc + $gridGutterPc * ($gridNumPc - 1)
+// $frmSp = $gridColSp * $gridNumSp + $gridGutterSp * ($gridNumSp - 1)
+
+// *** font
+// +++ base font size
+$fbs = font-baseSize
+
+// +++ font settings
+// --- ja
+// --- en
+// +++ font family
+$fontJa = font-family-ja
+$fontEn = font-family-en
+
+// *** colors
+$black = color-black
+$white = color-white
+
+// *** base duration
+$bDuration = .45
+
+// *** hover settings
+$hoverOpacity = .7

@@ -1,0 +1,119 @@
+//*** layout
+//*** column
+
+/**
+ * 命名規則
+ *
+ * .l-column--{カラム数}
+ * .l-column--{カラム数}--{グリッド数1}-{グリッド数2}
+ *
+ * 子要素は .l-column__item という class 名で統一
+ *
+ * ex)
+ * .l-column--2
+ * .l-column--2--6-6
+ * .l-column--3--2-4-6
+ *
+ * ..etc
+ */
+
+//+++ common
+[class*='l-column']:not([class*='__item'])
+  margin-right auto
+  margin-left auto
+
+[class*='l-column']:not([class*='__item']):not([class*="--pc"]):not([class*="--sp"])
+  display flex
+  flex-wrap wrap
+
+[class*='l-column'][class*="--pc"]
+  +pc()
+    display flex
+    flex-wrap wrap
+
+[class*='l-column'][class*="--sp"]
+  +sp()
+    display flex
+    flex-wrap wrap
+
+//+++ 1col
+.l-column
+[class*='l-column--1']
+  .l-column__item
+    +pc()
+      width 100%
+  &--pc
+  .l-column__item
+    +pc()
+      width 100%
+  &--sp
+  .l-column__item
+    +pc()
+      width 100%
+
+//+++ 2col
+[class*='l-column--2']:not([class*="--pc"]):not([class*="--sp"])
+  .l-column__item
+    &:nth-child(even)
+      +pc()
+        margin-left prem(gridCalc(0, 1))
+      +sp()
+        margin-left prem(gridCalc(0, 1, 'sp'))
+
+[class*='l-column--2'][class*="--pc"]
+  .l-column__item
+    &:nth-child(even)
+      +pc()
+        margin-left prem(gridCalc(0, 1))
+
+[class*='l-column--2'][class*="--sp"]
+    .l-column__item
+      &:nth-child(even)
+        +sp()
+          margin-left prem(gridCalc(0, 1, 'sp'))
+
+[class*='l-column--2']
+  .l-column__item
+    +pc()
+      width prem(gridCalc(6, 5))
+
+$gridNum = ($gridNumPc >= $gridNumSp) ? $gridNumPc : $gridNumSp
+for i1 in (1 .. $gridNum - 1)
+  for i2 in (1 .. $gridNum - 1)
+    .l-column--2--{i1}-{i2}
+      if $gridNumPc >= i1 + i2
+        +pc()
+          width prem(gridCalc(i1, i1 - 1) + gridCalc(i2, i2 - 1) + $gridGutterPc)
+        .l-column__item:nth-child(odd)
+          +pc()
+            width prem(gridCalc(i1, i1 - 1))
+        .l-column__item:nth-child(even)
+          +pc()
+            width prem(gridCalc(i2, i2 - 1))
+        &--pc
+          +pc()
+            width prem(gridCalc(i1, i1 - 1) + gridCalc(i2, i2 - 1) + $gridGutterPc)
+          .l-column__item:nth-child(odd)
+            +pc()
+              width prem(gridCalc(i1, i1 - 1))
+          .l-column__item:nth-child(even)
+            +pc()
+              width prem(gridCalc(i2, i2 - 1))
+      if $gridNumSp >= i1 + i2
+        +sp()
+          width prem(gridCalc(i1, i1 - 1, 'sp') + gridCalc(i2, i2 - 1, 'sp') + $gridGutterSp)
+        .l-column__item:nth-child(odd)
+          +sp()
+            width prem(gridCalc(i1, i1 - 1, 'sp'))
+        .l-column__item:nth-child(even)
+          +sp()
+            width prem(gridCalc(i2, i2 - 1, 'sp'))
+        &--sp
+          +sp()
+            width prem(gridCalc(i1, i1 - 1, 'sp') + gridCalc(i2, i2 - 1, 'sp') + $gridGutterSp)
+          .l-column__item:nth-child(odd)
+            +sp()
+              width prem(gridCalc(i1, i1 - 1, 'sp'))
+          .l-column__item:nth-child(even)
+            +sp()
+              width prem(gridCalc(i2, i2 - 1, 'sp'))

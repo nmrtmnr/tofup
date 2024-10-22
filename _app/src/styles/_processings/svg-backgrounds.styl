@@ -1,0 +1,9 @@
+returnColor($color = '')
+  if '' == $color
+    $color = $black
+  $color = replace('#', '', s('%s', $color))
+
+arrow01($color1 = '', $color2 = '#fff')
+  $color1 = returnColor($color1)
+  $color2 = returnColor($color2)
+  url('data:image/svg+xml;charset=utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xml%3Aspace%3D%22preserve%22%20style%3D%22enable-background%3Anew%200%200%2040%2040%22%20viewBox%3D%220%200%2040%2040%22%20width%3D%2240%22%20height%3D%2240%22%3E%3Cpath%20d%3D%22M20%200c11%200%2020%209%2020%2020s-9%2020-20%2020S0%2031%200%2020%209%200%2020%200z%22%20fill%3D%22%23' + $color1 + '%22%2F%3E%3Cpath%20d%3D%22M18.5%2026c-.3%200-.5-.1-.7-.3-.4-.4-.4-1%200-1.4l4.3-4.3-4.3-4.3c-.4-.4-.4-1%200-1.4s1-.4%201.4%200l5%205c.4.4.4%201%200%201.4l-5%205c-.2.2-.4.3-.7.3z%22%20fill%3D%22%23' + $color2 + '%22%2F%3E%3C%2Fsvg%3E')

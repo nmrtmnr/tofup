@@ -1,0 +1,14 @@
+//- example
+//- var str = '<p>Hello, <b>world</b>!</p>'
+//- var stripped = stripTag('b', str)
+//- console.log(stripped)  // "<p>Hello, !</p>"
+
+-
+  function stripTag(tagName, str) {
+    if ((null === str) || ('' === str)) {
+      return false
+    } else {
+      str = str.toString()
+    }
+    return str.replace(new RegExp('<\/?'+tagName+'[^>]*>', 'g'), '')
+  }

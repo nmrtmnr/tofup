@@ -1,0 +1,205 @@
+//*** px
+px(n)
+  (n)px
+
+//*** percentage
+per(n, w = $dsSp)
+  percentage((n / w))
+
+//*** viewport width
+vw(n, w = $dsSp)
+  ((n / w) * 100)vw
+
+//*** viewport height
+vh(n, h)
+  ((n / h) * 100)vh
+
+//*** root em
+rem(n, fbs = $fbs)
+  (n / fbs)rem
+
+//*** project base root
+prem(n)
+  'calc(var(--project-base-root) * %s * 1px)' % n
+
+//*** font settings
+fontSettings(fs, lh = null, ls = null, fw = null, imp = null, bs = $dsSp)
+  if imp != null
+    font-size px(fs) !important
+    if lh != null
+      line-height lh !important
+    if ls != null
+      letter-spacing (ls / 1000)em !important
+    if fw != null
+      font-weight fw !important
+  else
+    font-size px(fs)
+    if lh != null
+      line-height lh
+    if ls != null
+      letter-spacing (ls / 1000)em
+    if fw != null
+      font-weight fw
+
+font(fs, lh = null, ls = null, fw = null, imp = null)
+  +pc()
+    fontSettings(fs, lh, ls, fw, imp, $dsPc)
+  +sp()
+    fontSettings(fs, lh, ls, fw, imp, $dsSp)
+
+fontPc(fs, lh = null, ls = null, fw = null, imp = null)
+  +pc()
+    fontSettings(fs, lh, ls, fw, imp, $dsPc)
+
+fontSp(fs, lh = null, ls = null, fw = null, imp = null)
+  +sp()
+    fontSettings(fs, lh, ls, fw, imp, $dsSp)
+
+fontJaLv1()
+  +pc()
+    fontSettings($fJaLv1PcSize, $fJaLv1PcLh, $fJaLv1PcLs, $fJaLv1PcW)
+  +sp()
+    fontSettings($fJaLv1SpSize, $fJaLv1SpLh, $fJaLv1SpLs, $fJaLv1SpW)
+fontJaLv1Pc()
+  +pc()
+    fontSettings($fJaLv1PcSize, $fJaLv1PcLh, $fJaLv1PcLs, $fJaLv1PcW)
+fontJaLv1Sp()
+  +sp()
+    fontSettings($fJaLv1SpSize, $fJaLv1SpLh, $fJaLv1SpLs, $fJaLv1SpW)
+
+fontJaLv2()
+  +pc()
+    fontSettings($fJaLv2PcSize, $fJaLv2PcLh, $fJaLv2PcLs, $fJaLv2PcW)
+  +sp()
+    fontSettings($fJaLv2SpSize, $fJaLv2SpLh, $fJaLv2SpLs, $fJaLv2SpW)
+fontJaLv2Pc()
+  +pc()
+    fontSettings($fJaLv2PcSize, $fJaLv2PcLh, $fJaLv2PcLs, $fJaLv2PcW)
+fontJaLv2Sp()
+  +sp()
+    fontSettings($fJaLv2SpSize, $fJaLv2SpLh, $fJaLv2SpLs, $fJaLv2SpW)
+
+fontJaLv3()
+  +pc()
+    fontSettings($fJaLv3PcSize, $fJaLv3PcLh, $fJaLv3PcLs, $fJaLv3PcW)
+  +sp()
+    fontSettings($fJaLv3SpSize, $fJaLv3SpLh, $fJaLv3SpLs, $fJaLv3SpW)
+fontJaLv3Pc()
+  +pc()
+    fontSettings($fJaLv3PcSize, $fJaLv3PcLh, $fJaLv3PcLs, $fJaLv3PcW)
+fontJaLv3Sp()
+  +sp()
+    fontSettings($fJaLv3SpSize, $fJaLv3SpLh, $fJaLv3SpLs, $fJaLv3SpW)
+
+fontJaLv4()
+  +pc()
+    fontSettings($fJaLv4PcSize, $fJaLv4PcLh, $fJaLv4PcLs, $fJaLv4PcW)
+  +sp()
+    fontSettings($fJaLv4SpSize, $fJaLv4SpLh, $fJaLv4SpLs, $fJaLv4SpW)
+fontJaLv4Pc()
+  +pc()
+    fontSettings($fJaLv4PcSize, $fJaLv4PcLh, $fJaLv4PcLs, $fJaLv4PcW)
+fontJaLv4Sp()
+  +sp()
+    fontSettings($fJaLv4SpSize, $fJaLv4SpLh, $fJaLv4SpLs, $fJaLv4SpW)
+
+fontJaLv5()
+  +pc()
+    fontSettings($fJaLv5PcSize, $fJaLv5PcLh, $fJaLv5PcLs, $fJaLv5PcW)
+  +sp()
+    fontSettings($fJaLv5SpSize, $fJaLv5SpLh, $fJaLv5SpLs, $fJaLv5SpW)
+fontJaLv5Pc()
+  +pc()
+    fontSettings($fJaLv5PcSize, $fJaLv5PcLh, $fJaLv5PcLs, $fJaLv5PcW)
+fontJaLv5Sp()
+  +sp()
+    fontSettings($fJaLv5SpSize, $fJaLv5SpLh, $fJaLv5SpLs, $fJaLv5SpW)
+
+fontEnLv1()
+  +pc()
+    fontSettings($fEnLv1PcSize, $fEnLv1PcLh, $fEnLv1PcLs, $fEnLv1PcW)
+  +sp()
+    fontSettings($fEnLv1SpSize, $fEnLv1SpLh, $fEnLv1SpLs, $fEnLv1SpW)
+fontEnLv1Pc()
+  +pc()
+    fontSettings($fEnLv1PcSize, $fEnLv1PcLh, $fEnLv1PcLs, $fEnLv1PcW)
+fontEnLv1Sp()
+  +sp()
+    fontSettings($fEnLv1SpSize, $fEnLv1SpLh, $fEnLv1SpLs, $fEnLv1SpW)
+
+fontEnLv2()
+  +pc()
+    fontSettings($fEnLv2PcSize, $fEnLv2PcLh, $fEnLv2PcLs, $fEnLv2PcW)
+  +sp()
+    fontSettings($fEnLv2SpSize, $fEnLv2SpLh, $fEnLv2SpLs, $fEnLv2SpW)
+fontEnLv2Pc()
+  +pc()
+    fontSettings($fEnLv2PcSize, $fEnLv2PcLh, $fEnLv2PcLs, $fEnLv2PcW)
+fontEnLv2Sp()
+  +sp()
+    fontSettings($fEnLv2SpSize, $fEnLv2SpLh, $fEnLv2SpLs, $fEnLv2SpW)
+
+fontEnLv3()
+  +pc()
+    fontSettings($fEnLv3PcSize, $fEnLv3PcLh, $fEnLv3PcLs, $fEnLv3PcW)
+  +sp()
+    fontSettings($fEnLv3SpSize, $fEnLv3SpLh, $fEnLv3SpLs, $fEnLv3SpW)
+fontEnLv3Pc()
+  +pc()
+    fontSettings($fEnLv3PcSize, $fEnLv3PcLh, $fEnLv3PcLs, $fEnLv3PcW)
+fontEnLv3Sp()
+  +sp()
+    fontSettings($fEnLv3SpSize, $fEnLv3SpLh, $fEnLv3SpLs, $fEnLv3SpW)
+
+fontEnLv4()
+  +pc()
+    fontSettings($fEnLv4PcSize, $fEnLv4PcLh, $fEnLv4PcLs, $fEnLv4PcW)
+  +sp()
+    fontSettings($fEnLv4SpSize, $fEnLv4SpLh, $fEnLv4SpLs, $fEnLv4SpW)
+fontEnLv4Pc()
+  +pc()
+    fontSettings($fEnLv4PcSize, $fEnLv4PcLh, $fEnLv4PcLs, $fEnLv4PcW)
+fontEnLv4Sp()
+  +sp()
+    fontSettings($fEnLv4SpSize, $fEnLv4SpLh, $fEnLv4SpLs, $fEnLv4SpW)
+
+fontEnLv5()
+  +pc()
+    fontSettings($fEnLv5PcSize, $fEnLv5PcLh, $fEnLv5PcLs, $fEnLv5PcW)
+  +sp()
+    fontSettings($fEnLv5SpSize, $fEnLv5SpLh, $fEnLv5SpLs, $fEnLv5SpW)
+fontEnLv5Pc()
+  +pc()
+    fontSettings($fEnLv5PcSize, $fEnLv5PcLh, $fEnLv5PcLs, $fEnLv5PcW)
+fontEnLv5Sp()
+  +sp()
+    fontSettings($fEnLv5SpSize, $fEnLv5SpLh, $fEnLv5SpLs, $fEnLv5SpW)
+
+//*** grid calculation
+gridCalc(col = 0, gutter = 0, device = 'pc')
+  if device == 'pc'
+    $gridColPc * col + $gridGutterPc * gutter
+  else if device == 'sp'
+    $gridColSp * col + $gridGutterSp * gutter
+  else
+    0
+
+//*** object fit
+objFit(s = cover, pX = center, pY = center)
+  width (cover == s) ? calc(100% + 2px) : 100%
+  height (cover == s) ? calc(100% + 2px) : 100%
+  margin-top (cover == s) ? -1px : 0
+  margin-left (cover == s) ? -1px : 0
+  object-fit s
+  object-position pX pY
+  font-family 'object-fit: ' + s + ';'
+
+//*** hover settings
+//+++ opacity
+// hovOpacitySettings(d = $BASE_DURATION, tf = ease)
+//   transition-property opacity
+//   transition-duration d * 1s
+//   transition-timing-function tf
+
+// hovOpacityDone(o = .5)
+//   opacity o

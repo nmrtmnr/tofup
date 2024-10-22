@@ -1,0 +1,32 @@
+- file = "_mixins/_anchor"
+
+mixin anchor(options=null)
+  if options
+    if options.href
+      - const className = genClass(options.className) || false
+      a(
+        class=className?className:"anchor"
+        download=options.download||false
+        href=options.href||false
+        hreflang=options.hreflang||false
+        ping=options.ping||false
+        referrerpolicy=options.referrerpolicy||false
+        rel=options.rel||(options.target === "_blank")?"noopener":false
+        target=options.target||false
+      )&attributes(attributes)
+        if !block && options.text
+          span(
+            class=classNmae?`${className}__text`:"anchor__text"
+          )!=options.text
+        else
+          block
+    else
+      +error({
+        text: "options.href（※必須）の設定がありません",
+        file: file
+      })
+  else
+    +error({
+      text: "options（※必須）の設定がありません",
+      file: file
+    })

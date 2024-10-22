@@ -1,0 +1,60 @@
+include /_functions/_init
+include /_mixins/_init
+//- include /_modules/_init
+//- include /_components/_init
+include /_blocks/_init
+//- include /_svgs/_init
+
+block vars
+-
+  let moduleOptions = {}
+  const META = data.meta[page.path]
+  const BASE_URL = baseUrl
+  const ROOT_PATH = rootPath
+  const STYLE_PATH = data.settings.path.style
+  const SCRIPT_PATH = data.settings.path.script
+  const IMAGE_PATH = ROOT_PATH + data.settings.path.asset + data.settings.path.image
+
+doctype html
+html(class="no-js")
+  //- pathは各pugで定義
+  head
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible" content="IE=edge,chrome=1")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    meta(name="format-detection" content="telephone=no")
+    meta(name=`title`, content=META.title)
+    meta(name="description", content=META.description)
+    meta(name="keywords", content=META.keywords)
+
+    title=META.title
+
+    //- og
+    //- meta.og の内容有無で title と description は分岐
+    meta(property="og:title" content=META.og.title || META.title)
+    meta(property="og:description" content=META.og.description || META.description)
+    meta(property="og:url" content=META.og.url)
+    meta(property="og:type" content=META.og.type)
+    meta(property="og:image" content=META.og.image)
+    meta(property="og:site_name" content=META.og.site_name)
+    meta(name="twitter:card" content="summary_large_image")
+
+    //- icon
+    link(rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.ico")
+    link(rel="apple-touch-icon" href="/apple-touch-icon.png")
+
+    //- styles
+    link(rel="stylesheet", href=`${STYLE_PATH}/app.styl`)
+
+    //- scripts
+    script(src=`${SCRIPT_PATH}/app.js` type="module")
+
+  body
+    //- include ../_blocks/_header
+    //- +header()
+    main.l-main
+      block main
+    //- include ../_blocks/_footer
+    //- +footer()
+
+    script(type="application/json" id="m-props") !{JSON.stringify(moduleOptions)}

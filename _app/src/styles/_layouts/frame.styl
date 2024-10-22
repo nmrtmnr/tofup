@@ -1,0 +1,47 @@
+//*** frame
+.l-frm
+[class*='l-frm--']
+  margin-right auto
+  margin-left auto
+
+.l-frm
+  +pc()
+    width prem($frmPc)
+  +sp()
+    width prem($frmSp)
+  &--pc
+    +pc()
+      width prem($frmPc)
+  &--sp
+    +sp()
+      width prem($frmSp)
+
+if $gridNumPc >= $gridNumSp
+  for colNum in (1 .. $gridNumPc)
+    for gutterNum in (1 .. $gridNumPc)
+      .l-frm--{colNum}-{gutterNum}
+        +pc()
+          width prem($gridColPc * colNum + $gridGutterPc * gutterNum)
+        +sp()
+          width prem($gridColSp * colNum + $gridGutterSp * gutterNum)
+        &--pc
+          +pc()
+            width prem($gridColPc * colNum + $gridGutterPc * gutterNum)
+        &--sp
+          +sp()
+            width prem($gridColSp * colNum + $gridGutterSp * gutterNum)
+
+if $gridNumSp > $gridNumPc
+  for colNum in (1 .. $gridNumSp)
+    for gutterNum in (1 .. $gridNumSp)
+      .l-frm--{colNum}-{gutterNum}
+        +pc()
+          width prem($gridColPc * colNum + $gridGutterPc * gutterNum)
+        +sp()
+          width prem($gridColSp * colNum + $gridGutterSp * gutterNum)
+        &--pc
+          +pc()
+            width prem($gridColPc * colNum + $gridGutterPc * gutterNum)
+        &--sp
+          +sp()
+            width prem($gridColSp * colNum + $gridGutterSp * gutterNum)

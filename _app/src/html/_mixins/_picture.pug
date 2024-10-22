@@ -1,0 +1,48 @@
+//- NOTE: https://developer.mozilla.org/ja/docs/Web/HTML/Element/picture
+//- NOTE: https://developer.mozilla.org/ja/docs/Web/HTML/Element/source
+//- NOTE: https://developer.mozilla.org/ja/docs/Web/HTML/Element/img
+
+mixin pic(options=null)
+  if options
+    if options.src
+      -
+        const className = genClass(options.className) || "picture"
+        const breakpoint = options.breakpoint || data.settings.breakpoint.lv1
+        const extension = options.src.split(".").pop()
+        const src = options.src
+        const type = "image/" + (extension === "jpg" ? "jpeg" : extension === "svg" ? "svg+xml" : extension)
+        const size = {
+          pc: imageSize(src),
+          sp: imageSize(src.replace(/-pc/g, '-sp'))
+        }
+      picture(class=className||false)&attributes(attributes)
+        source(
+          class=className?`${className}__source`:"picture__source"
+          media=`(min-width:${breakpoint}px)`
+          data-srcset=lazyload?src:false
+          srcset=options.src
+          type=type
+          width=size.pc.width
+          height=size.pc.height
+        )
+        source(
+          class=className?`${className}__source`:"picture__source"
+          media=`(max-width:${breakpoint - 1}px)`
+          data-srcset=lazyload?src.replace(/-pc/g, '-sp'):false
+          srcset=options.src.replace(/-pc/g, '-sp')
+          type=type
+          width=size.sp.width
+          height=size.sp.height
+        )
+        - options.className = className ? `${className}__image` : "picture__image"
+        +image(options)
+    else
+      +error({
+        text: "options.src（※必須）の設定がありません",
+        file: "_mixins/_picture"
+      })
+  else
+    +error({
+      text: "options（※必須）の設定がありません",
+      file: "_mixins/_picture"
+    })
