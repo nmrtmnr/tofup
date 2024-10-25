@@ -49,7 +49,20 @@ html(class="no-js")
     //- scripts
     script(src=`${SCRIPT_PATH}/app.js` type="module")
 
-  body
+  -
+    defaultModuleNames = [
+      "rootFontSize",
+    ]
+
+    defaultModules = ""
+    for (const [i, name] of defaultModuleNames.entries()) {
+      defaultModules += module(name)
+      if (i !== defaultModuleNames.length - 1) {
+        defaultModules += " "
+      }
+    }
+
+  body(data-module=defaultModules)
     //- include ../_blocks/_header
     //- +header()
     main.l-main
