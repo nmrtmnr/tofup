@@ -59,7 +59,7 @@ export default ({ mode }) => {
 
   // const ENV = { ...process.env, ...loadEnv(mode, process.cwd()) };
   // const BASE_URL = ENV.VITE_BASE_URL;
-  // const PROJECT_ROOT_PATH = ENV.VITE_PROJECT_ROOT_PATH;
+  const PROJECT_ROOT_PATH = "";
 
   return defineConfig({
     root: "./src",
@@ -73,6 +73,7 @@ export default ({ mode }) => {
         view: "./html/pages",
         data: {
           data: getData(),
+          rootPath: PROJECT_ROOT_PATH,
           imageSize: (src: string) => {
             const srcPath = path.resolve(__dirname, "src");
             const filePath = path

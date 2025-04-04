@@ -41,7 +41,8 @@
     "cannon-es": "^0.18.0",
     "lodash": "4.17.21",
     "three": "^0.169.0",
-    "three.meshline": "^1.4.0"
+    "three.meshline": "^1.4.0",
+    "pixi.js": "^8.7.3"
   },
   "browserslist": [
     "last 2 versions, > 1%"

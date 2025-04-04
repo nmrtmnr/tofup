@@ -29,7 +29,8 @@
     "style": "/styles",
     "image": "/images",
     "movie": "/movies",
-    "obj": "/objs"
+    "obj": "/objs",
+    "audio": "/audios"
   },
   "font": {
     "baseSize": 10,
