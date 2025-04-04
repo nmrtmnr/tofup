@@ -28,7 +28,8 @@
     "script": "/scripts",
     "style": "/styles",
     "image": "/images",
-    "movie": "/movies"
+    "movie": "/movies",
+    "obj": "/objs"
   },
   "font": {
     "baseSize": 10,

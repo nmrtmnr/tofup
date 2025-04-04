@@ -1,156 +1,206 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import * as CANNON from "cannon-es";
+import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader.js";
 
-const Test = (element) => {
-  // window.addEventListener("load", init, false);
+// Scene, Camera, Renderer
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xffffff);
 
-  function init() {
-    createWorld();
-    createPrimitive();
-    //---
-    animation();
-  }
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(0, 2, 25);
 
-  let theme = { _darkred: 0x000000 };
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
 
-  //--------------------------------------------------------------------
+// Orbit Controls
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.1;
+controls.rotateSpeed = 1;
 
-  let scene, camera, renderer, container;
-  let start = Date.now();
-  let _width, _height;
+// Cannon.js World
+const world = new CANNON.World();
+world.gravity.set(0, -12, 0);
+world.broadphase = new CANNON.NaiveBroadphase();
+world.solver.iterations = 7;
 
-  function createWorld() {
-    _width = window.innerWidth;
-    _height = window.innerHeight;
-    //---
-    scene = new THREE.Scene();
-    //scene.fog = new THREE.Fog(Theme._darkred, 8, 20);
-    scene.background = new THREE.Color(0x000000);
-    //---
-    camera = new THREE.PerspectiveCamera(55, _width / _height, 1, 1000);
-    camera.position.z = 12;
-    //---
-    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    renderer.setSize(_width, _height);
-    //---
-    container = element;
-    container.appendChild(renderer.domElement);
-    //---
+// Floor
+const floorGeometry = new THREE.PlaneGeometry(50, 50);
+const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
+const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+floor.rotation.x = -Math.PI / 2;
+floor.receiveShadow = true;
+scene.add(floor);
 
-    window.addEventListener("resize", onWindowResize, false);
-  }
+const floorShape = new CANNON.Plane();
+const floorBody = new CANNON.Body({ mass: 0 });
+floorBody.addShape(floorShape);
+floorBody.quaternion.setFromEuler(-Math.PI / 2, 0, 0);
+world.addBody(floorBody);
 
-  function onWindowResize() {
-    _width = window.innerWidth;
-    _height = window.innerHeight;
-    renderer.setSize(_width, _height);
-    camera.aspect = _width / _height;
+floorBody.material = new CANNON.Material({ restitution: 1 }); // Example restitution value
+
+// OBJ Loader
+const loader = new OBJLoader();
+loader.load(
+    '/assets/objs/softbody/rock.obj', // **Make sure this path is correct!**
+    (object) => {
+        // Traverse through all child meshes and set their material
+        object.traverse((child) => {
+            if (child instanceof THREE.Mesh) {
+                child.material = new THREE.MeshStandardMaterial({ color: 0x333333 });
+                child.castShadow = true;
+                child.receiveShadow = true;
+            }
+        });
+
+        // Compute Bounding Box Center
+        const bbox = new THREE.Box3().setFromObject(object);
+        const center = new THREE.Vector3();
+        bbox.getCenter(center);
+
+        // Offset the object so its pivot is at the center of the bounding box
+        object.position.sub(center);
+
+        // Create a parent group to rotate around the center
+        const objectGroup = new THREE.Group();
+        objectGroup.add(object);
+        objectGroup.position.copy(center);  // Place the pivot at the center
+        scene.add(objectGroup);
+
+       
+        // Physics (Convex Hull)
+        let geometry = object.children[0].geometry.clone();
+        const vertices = geometry.attributes.position.array;
+        const indices = geometry.index?.array || undefined;
+
+        const cannonVertices = [];
+        for (let i = 0; i < vertices.length; i += 3) {
+            cannonVertices.push(new CANNON.Vec3(vertices[i] - center.x, vertices[i + 1] - center.y, vertices[i + 2] - center.z));
+        }
+
+        const cannonFaces = [];
+        if (indices) {
+            for (let i = 0; i < indices.length; i += 3) {
+                cannonFaces.push([indices[i], indices[i + 1], indices[i + 2]]);
+            }
+        } else {
+            for (let i = 0; i < cannonVertices.length; i += 3) {
+                cannonFaces.push([i, i + 1, i + 2]);
+            }
+        }
+
+        const shape = new CANNON.ConvexPolyhedron({ vertices: cannonVertices, faces: cannonFaces });
+        const body = new CANNON.Body({ mass: 1000, position: new CANNON.Vec3(center.x, center.y +  10, center.z) });
+        body.addShape(shape);
+        world.addBody(body);
+
+        objectGroup.userData.physicsBody = body;
+
+        // **Add restitution to the object**
+        body.material = new CANNON.Material({ restitution: 1 }); // Example restitution value
+
+        // Create contact material to combine restitution
+        const groundContactMaterial = new CANNON.ContactMaterial(
+            floorBody.material,
+            body.material,
+            {
+                friction: 1.3, // You can also set friction here if needed
+                restitution: 0.6 // Adjust overall restitution for the collision
+            }
+        );
+
+
+        // Store the center dot for later updates
+        objectGroup.userData.centerDot = centerDot;
+    },
+    (xhr) => console.log((xhr.loaded / xhr.total * 100) + '% loaded'),
+    (error) => console.error('An error happened', error)
+);
+
+// Lighting
+const light = new THREE.DirectionalLight(0xffffff, 2);
+light.position.set(3, 5, 2);
+light.castShadow = true;
+light.shadow.mapSize.width = 2048;
+light.shadow.mapSize.height = 2048;
+light.shadow.camera.near = 0.5;
+light.shadow.camera.far = 10;
+light.shadow.bias = -0.002;
+scene.add(light);
+
+const ambientLight = new THREE.AmbientLight(0x404040);
+scene.add(ambientLight);
+
+// Resize handling
+window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    console.log("- resize -");
-  }
+});
 
-  //--------------------------------------------------------------------
+// Animation loop
+let timeStep = 1 / 60;
+const rotationSpeed = THREE.MathUtils.degToRad(135); // Convert degrees to radians
+let lastRotationTime = 0;
+let rotationProgress = 1; // Start at 1 so the first rotation triggers immediately
+const rotationDuration = 1; // Time in seconds for easing
+let rotationStartQuaternion = new THREE.Quaternion();
+let targetQuaternion = new THREE.Quaternion();
 
-  var mat;
-  var primitiveElement = function () {
-    this.mesh = new THREE.Object3D();
-    mat = new THREE.ShaderMaterial({
-      wireframe: false,
-      //fog: true,
-      uniforms: {
-        time: {
-          type: "f",
-          value: 0.0,
-        },
-        pointscale: {
-          type: "f",
-          value: 0.0,
-        },
-        decay: {
-          type: "f",
-          value: 0.0,
-        },
-        complex: {
-          type: "f",
-          value: 0.0,
-        },
-        waves: {
-          type: "f",
-          value: 0.0,
-        },
-        eqcolor: {
-          type: "f",
-          value: 1.0,
-        },
-        fragment: {
-          type: "i",
-          value: true,
-        },
-        redhell: {
-          type: "i",
-          value: true,
-        },
-      },
-      vertexShader: document.getElementById("vertexShader").textContent,
-      fragmentShader: document.getElementById("fragmentShader").textContent,
+function animate() {
+    requestAnimationFrame(animate);
+    world.step(timeStep);
+
+    const currentTime = performance.now() / 2000;  // Time in seconds
+
+    scene.traverse((object) => {
+        if (object.userData.physicsBody) {
+            const body = object.userData.physicsBody;
+
+            const bodyQuaternion = new THREE.Quaternion(
+                body.quaternion.x,
+                body.quaternion.y,
+                body.quaternion.z,
+                body.quaternion.w
+            );
+
+            // Rotate object around its center (always reset this for every frame)
+            if (currentTime - lastRotationTime >= 1 && rotationProgress >= 1) {
+                lastRotationTime = currentTime;
+                rotationProgress = 0;
+
+                rotationStartQuaternion.copy(bodyQuaternion);
+
+                const rotationQuaternion = new THREE.Quaternion();
+                rotationQuaternion.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rotationSpeed);
+                targetQuaternion.copy(rotationStartQuaternion).multiply(rotationQuaternion);
+            }
+
+            if (rotationProgress < 1) {
+                rotationProgress += timeStep / rotationDuration;
+                rotationProgress = Math.min(rotationProgress, 1);
+                bodyQuaternion.slerpQuaternions(rotationStartQuaternion, targetQuaternion, rotationProgress);
+                body.quaternion.set(bodyQuaternion.x, bodyQuaternion.y, bodyQuaternion.z, bodyQuaternion.w);
+            }
+
+            // Update position and rotation of the object based on the physics body
+            object.position.copy(body.position);
+            object.quaternion.copy(bodyQuaternion); // Set the rotation of the object from the physics body
+
+            // Update the center dot position
+            if (object.userData.centerDot) {
+                object.userData.centerDot.position.copy(object.position);
+            }
+        }
     });
-    var geo = new THREE.IcosahedronGeometry(3, 100);
-    var mesh = new THREE.Points(geo, mat);
 
-    //---
-    this.mesh.add(mesh);
-  };
-
-  var _primitive;
-  function createPrimitive() {
-    _primitive = new primitiveElement();
-    scene.add(_primitive.mesh);
-  }
-
-  //--------------------------------------------------------------------
-
-  var options = {
-    perlin: {
-      vel: 0.002,
-      speed: 0.0005,
-      perlins: 1.0,
-      decay: 0.1,
-      complex: 0.3,
-      waves: 20.0,
-      eqcolor: 11.0,
-      fragment: true,
-      redhell: true,
-    },
-    spin: {
-      sinVel: 0.0,
-      ampVel: 80.0,
-    },
-  };
-
-  //--------------------------------------------------------------------
-
-  function animation() {
-    requestAnimationFrame(animation);
-    var performance = Date.now() * 0.003;
-
-    _primitive.mesh.rotation.y += options.perlin.vel;
-    _primitive.mesh.rotation.x =
-      (Math.sin(performance * options.spin.sinVel) * options.spin.ampVel * Math.PI) / 180;
-    //---
-    mat.uniforms["time"].value = options.perlin.speed * (Date.now() - start);
-    mat.uniforms["pointscale"].value = options.perlin.perlins;
-    mat.uniforms["decay"].value = options.perlin.decay;
-    mat.uniforms["complex"].value = options.perlin.complex;
-    mat.uniforms["waves"].value = options.perlin.waves;
-    mat.uniforms["eqcolor"].value = options.perlin.eqcolor;
-    mat.uniforms["fragment"].value = options.perlin.fragment;
-    mat.uniforms["redhell"].value = options.perlin.redhell;
-    //---
-    camera.lookAt(scene.position);
+    controls.update();
     renderer.render(scene, camera);
-  }
+}
 
-  init();
-};
-
-export default Test;
+animate();
