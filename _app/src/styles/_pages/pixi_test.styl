@@ -1,0 +1,164 @@
+// *** pages
+// *** pixi_test
+body
+  overflow hidden
+  font-family 'Helvetica Neue'
+  font-weight 700
+
+.pixi_test
+  overflow hidden
+  width 100dvw
+  height 100dvh
+  color white
+  background-color black
+
+  .text
+    display flex
+    flex-wrap wrap
+    justify-content center
+    position absolute
+    top 50%
+    left 0
+    z-index 1
+    width 100%
+    font-size rem(80)
+    transform translate3d(0, -50%, 0)
+
+    & > span
+      display block
+      position relative
+      width rem(150)
+      height rem(150)
+      transform scale(1.6)
+      transition transform .8s ease
+      &.is-disp
+        transform scale(1)
+      &.is-blink
+        animation titleTxtBlink .1s infinite
+
+    & > span > span
+      position absolute
+      top 50%
+      left 50%
+      opacity 0
+      transform translate3d(-50%, -50%, 0)
+      transition opacity .45s ease
+
+    & > span.is-disp > span
+      opacity 1
+
+    & > span.is-glitch > span::before
+      content attr(data-text)
+      position absolute
+      left 1px
+      text-shadow -1px 0 red
+      top 0
+      color inherit
+      background transparent
+      overflow hidden
+      clip rect(0, 900px, 0, 0)
+      animation noise-anim 2s infinite linear alternate-reverse
+
+    & > span.is-glitch > span::after
+      content attr(data-text)
+      position absolute
+      left -2px
+      text-shadow 2px 0 blue
+      top 0
+      color inherit
+      background transparent
+      overflow hidden
+      clip rect(0, 900px, 0, 0)
+      animation noise-anim-2 1s infinite linear alternate-reverse
+
+@keyframes titleTxtBlink
+  50%
+    opacity 0
+
+@keyframes noise-anim
+  0%
+    clip rect(89px, 9999px, 95px, 0)
+  5%
+    clip rect(158px, 9999px, 98px, 0)
+  10%
+    clip rect(96px, 9999px, 912px, 0)
+  15%
+    clip rect(158px, 9999px, 65px, 0)
+  20%
+    clip rect(619px, 9999px, 7px, 0)
+  25%
+    clip rect(8px, 9999px, 3px, 0)
+  30%
+    clip rect(8px, 9999px, 176px, 0)
+  35%
+    clip rect(143px, 9999px, 125px, 0)
+  40%
+    clip rect(55px, 9999px, 167px, 0)
+  45%
+    clip rect(517px, 9999px, 19px, 0)
+  50%
+    clip rect(85px, 9999px, 114px, 0)
+  55%
+    clip rect(12px, 9999px, 142px, 0)
+  60%
+    clip rect(89px, 9999px, 198px, 0)
+  65%
+    clip rect(147px, 9999px, 6px, 0)
+  70%
+    clip rect(57px, 9999px, 120px, 0)
+  75%
+    clip rect(71px, 9999px, 319px, 0)
+  80%
+    clip rect(99px, 9999px, 119px, 0)
+  85%
+    clip rect(173px, 9999px, 166px, 0)
+  90%
+    clip rect(23px, 9999px, 175px, 0)
+  95%
+    clip rect(11px, 9999px, 156px, 0)
+  100%
+    clip rect(26px, 9999px, 196px, 0)
+
+@keyframes noise-anim-2
+  0%
+    clip rect(137px, 9999px, 16px, 0)
+  5%
+    clip rect(142px, 9999px, 139px, 0)
+  10%
+    clip rect(714px, 9999px, 32px, 0)
+  15%
+    clip rect(125px, 9999px, 60px, 0)
+  20%
+    clip rect(174px, 9999px, 194px, 0)
+  25%
+    clip rect(16px, 9999px, 12px, 0)
+  30%
+    clip rect(170px, 9999px, 113px, 0)
+  35%
+    clip rect(211px, 9999px, 119px, 0)
+  40%
+    clip rect(185px, 9999px, 170px, 0)
+  45%
+    clip rect(138px, 9999px, 26px, 0)
+  50%
+    clip rect(137px, 9999px, 151px, 0)
+  55%
+    clip rect(160px, 9999px, 1px, 0)
+  60%
+    clip rect(186px, 9999px, 117px, 0)
+  65%
+    clip rect(127px, 9999px, 16px, 0)
+  70%
+    clip rect(151px, 9999px, 160px, 0)
+  75%
+    clip rect(9px, 9999px, 29px, 0)
+  80%
+    clip rect(122px, 9999px, 141px, 0)
+  85%
+    clip rect(2px, 9999px, 82px, 0)
+  90%
+    clip rect(175px, 9999px, 118px, 0)
+  95%
+    clip rect(148px, 9999px, 25px, 0)
+  100%
+    clip rect(713px, 9999px, 98px, 0)
