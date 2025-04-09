@@ -1,8 +1,6 @@
 include /_functions/_init
 include /_mixins/_init
-//- include /_modules/_init
-//- include /_components/_init
-include /_blocks/_init
+include /_components/_init
 //- include /_svgs/_init
 
 block vars
@@ -15,6 +13,7 @@ block vars
   const SCRIPT_PATH = data.settings.path.script
   const IMAGE_PATH = ROOT_PATH + data.settings.path.asset + data.settings.path.image
   const AUDIO_PATH = ROOT_PATH + data.settings.path.asset + data.settings.path.audio
+  const MOVIE_PATH = ROOT_PATH + data.settings.path.asset + data.settings.path.movie
 
 doctype html
 html(class="no-js")
@@ -44,6 +43,13 @@ html(class="no-js")
     link(rel="shortcut icon" href="/favicon.ico" type="image/vnd.microsoft.ico")
     link(rel="apple-touch-icon" href="/apple-touch-icon.png")
 
+    //- google fonts
+    .
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400,500,700&display=swap" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400,500,700&display=swap" rel="stylesheet">
+
     //- styles
     link(rel="stylesheet", href=`${STYLE_PATH}/app.styl`)
 
@@ -64,11 +70,10 @@ html(class="no-js")
     }
 
   body(data-module=defaultModules)
-    //- include ../_blocks/_header
     //- +header()
+    +menu()
     main.l-main
       block main
-    //- include ../_blocks/_footer
     //- +footer()
 
     script(type="application/json" id="m-props") !{JSON.stringify(moduleOptions)}

@@ -1,0 +1,24 @@
+-
+  menus = Object.keys(data.meta).map(key => {
+    return key.replaceAll('/', '')
+  }).filter(Boolean)
+
+mixin menu()
+  .c-menu(data-module=module("menu"))
+    button.c-menu__button.c-menu__button--open
+      | MENU
+    button.c-menu__button.c-menu__button--close
+      | CLOSE
+    nav.c-menu__navigation
+      ul.c-menu__items
+        li.c-menu__item.c-menu__item--front_page
+          +anchor({
+            href: '/',
+            text: 'TOFUP',
+          }).c-menu__anchor
+        each menu, i in menus
+          li(class=`c-menu__item c-menu__item--${menu}`)
+            +anchor({
+              href: '/' + menu + '/',
+              text: menu,
+            }).c-menu__anchor

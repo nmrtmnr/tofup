@@ -1,0 +1,60 @@
+// *** components
+// *** menu
+// *** component
+// *** menu
+.c-menu
+  $this = selector()
+  overflow visible
+  width 0
+  height 0
+
+  // +++ button
+  &__button
+    position fixed
+    top 30px
+    left 40px
+    z-index 10002
+    height 60px
+    padding 15px
+    letter-spacing .1em
+    transition opacity .35s ease
+
+  &__button--open
+    color $white
+    opacity 1
+
+  &__button--close
+    color $black
+    opacity 0
+
+  // +++ navigation
+  &__navigation
+    position fixed
+    top 0
+    left -400px
+    z-index 10001
+    width 400px
+    height 100dvh
+    color $black
+    background-color $white
+    transition left .35s ease
+
+  &__items
+    margin-top auto
+    padding 100px 55px
+    font-size 16px
+
+  &__anchor
+    padding-top 10px
+    padding-bottom 10px
+    +hover()
+      text-decoration underline
+
+  // +++ acitive
+  &--active
+    {$this}__button--open
+      opacity 0
+    {$this}__button--close
+      opacity 1
+    {$this}__navigation
+      left 0

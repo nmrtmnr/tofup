@@ -1,0 +1,19 @@
+extend /_layouts/_default
+
+block vars
+  -
+    page = {
+      language: "ja",
+      id: "particle_movie",
+      categories: [],
+      path: "/particle_movie/"
+    }
+
+    moduleName = "particle_movie"
+
+block main
+  .
+    <script src="https://cdn.jsdelivr.net/npm/three@0.106.2/build/three.min.js"></script>
+  +soundPopUp('PARTICLE MOVIE')
+  +section(page.id)(data-module=module(moduleName))
+    video(src=`${MOVIE_PATH}/particle_movie.mp4` muted loop playsinline)
