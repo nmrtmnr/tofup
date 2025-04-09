@@ -1,0 +1,22 @@
+mixin soundPopUp(text="TOFUP")
+  .c-sound_popup
+    .c-sound_popup__heading!=text
+    .c-sound_popup__text
+      | TOFUP wants to play music.
+    .c-sound_popup__buttons
+      button.c-sound_popup__button.c-sound_popup__button--ok
+        | OK
+      button.c-sound_popup__button.c-sound_popup__button--dont-allow
+        | Don't Allow
+
+  //- .c-sound_popup
+  //-   .c-sound_popup__dialog
+  //-     .c-sound_heading
+  //-       | MUSIC
+  //-     .c-sound_popup__text
+  //-         | Play music?
+  //-     .c-sound_popup__buttons
+  //-       button.c-sound_popup__button.c-sound_popup__button--ok
+  //-         | OK
+  //-       button.c-sound_popup__button.c-sound_popup__button--dont-allow
+  //-         | Don't Allow

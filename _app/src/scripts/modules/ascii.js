@@ -1,6 +1,6 @@
-
-//スタイル
-document.documentElement.style.margin = "0";
+const Ascii = (element) => {
+  //スタイル
+  document.documentElement.style.margin = "0";
   document.documentElement.style.padding = "0";
   document.documentElement.style.height = "100%";
   document.documentElement.style.width = "100%";
@@ -12,14 +12,13 @@ document.documentElement.style.margin = "0";
   document.body.style.display = "flex";
   document.body.style.justifyContent = "center";
   document.body.style.alignItems = "center";
-  document.body.style.background = "#FFF";
+  // document.body.style.background = "#FFF";
 
-  
   const IMAGE_SRC = "/assets/image/ascii/flower_05.png";
   let currentImageSrc = IMAGE_SRC;
   let usedRecentImages = [IMAGE_SRC];
-  
-//精査する
+
+  //精査する
   const IMAGE_COLOR_MAP = [
     { src: "flower_01.png", r: 61, g: 150, b: 0 },
     { src: "flower_02.png", r: 85, g: 160, b: 100 },
@@ -28,13 +27,13 @@ document.documentElement.style.margin = "0";
     { src: "flower_05.png", r: 220, g: 160, b: 60 },
     { src: "flower_06.png", r: 240, g: 130, b: 50 },
     { src: "flower_07.png", r: 255, g: 110, b: 30 },
-    { src: "flower_08.png", r: 240, g: 70,  b: 70 },
-    { src: "flower_09.png", r: 200, g: 60,  b: 120 },
-    { src: "flower_10.png", r: 170, g: 50,  b: 150 },
-    { src: "flower_11.png", r: 130, g: 60,  b: 170 },
-    { src: "flower_12.png", r: 90,  g: 70,  b: 180 },
-    { src: "flower_13.png", r: 60,  g: 90,  b: 200 },
-    { src: "flower_14.png", r: 150,  g: 150, b: 190 }
+    { src: "flower_08.png", r: 240, g: 70, b: 70 },
+    { src: "flower_09.png", r: 200, g: 60, b: 120 },
+    { src: "flower_10.png", r: 170, g: 50, b: 150 },
+    { src: "flower_11.png", r: 130, g: 60, b: 170 },
+    { src: "flower_12.png", r: 90, g: 70, b: 180 },
+    { src: "flower_13.png", r: 60, g: 90, b: 200 },
+    { src: "flower_14.png", r: 150, g: 150, b: 190 },
   ];
 
   let hoveredColor = null;
@@ -42,31 +41,31 @@ document.documentElement.style.margin = "0";
 
   function colorDistance(c1, c2) {
     return Math.sqrt(
-      Math.pow(c1.r - c2.r, 2) +
-      Math.pow(c1.g - c2.g, 2) +
-      Math.pow(c1.b - c2.b, 2)
+      Math.pow(c1.r - c2.r, 2) + Math.pow(c1.g - c2.g, 2) + Math.pow(c1.b - c2.b, 2),
     );
   }
 
   function findClosestImage(color) {
-    const sorted = IMAGE_COLOR_MAP
-      .map(img => ({ dist: colorDistance(img, color), src: img.src }))
-      .sort((a, b) => a.dist - b.dist);
+    const sorted = IMAGE_COLOR_MAP.map((img) => ({
+      dist: colorDistance(img, color),
+      src: img.src,
+    })).sort((a, b) => a.dist - b.dist);
 
     const topCandidates = sorted.slice(0, 5);
-    const filtered = topCandidates.filter(c => {
+    const filtered = topCandidates.filter((c) => {
       const fullPath = "/assets/image/ascii/" + c.src;
       return fullPath !== currentImageSrc && !usedRecentImages.includes(fullPath);
     });
-    const picked = filtered.length > 0
-      ? filtered[Math.floor(Math.random() * filtered.length)]
-      : topCandidates.find(c => "/assets/image/ascii/" + c.src !== currentImageSrc) || topCandidates[0];
+    const picked =
+      filtered.length > 0
+        ? filtered[Math.floor(Math.random() * filtered.length)]
+        : topCandidates.find((c) => "/assets/image/ascii/" + c.src !== currentImageSrc) ||
+          topCandidates[0];
 
     const fullPath = "/assets/image/ascii/" + picked.src;
     usedRecentImages.push(fullPath);
     if (usedRecentImages.length > 3) usedRecentImages.shift();
     return picked.src;
-  
   }
 
   function createInteractivePixelImage(IMAGE_SRC) {
@@ -151,7 +150,8 @@ document.documentElement.style.margin = "0";
           pixel.style.backgroundColor = `rgba(${r},${g},${b},${a})`;
           pixel.style.opacity = "0";
           pixel.style.transform = "scale(0)";
-          pixel.style.transition = "transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s";
+          pixel.style.transition =
+            "transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s";
           pixel.style.pointerEvents = "none";
           pixel.style.zIndex = "3";
           pixelContainer.appendChild(pixel);
@@ -246,3 +246,6 @@ document.documentElement.style.margin = "0";
   }
 
   const toggleFn = createInteractivePixelImage(IMAGE_SRC);
+};
+
+export default Ascii;

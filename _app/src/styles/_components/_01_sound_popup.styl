@@ -1,0 +1,61 @@
+// *** components
+// *** sound popup
+.c-sound_popup
+  display flex
+  flex-direction column
+  justify-content center
+  align-items center
+  position fixed
+  top 0
+  left 0
+  z-index 10000
+  width 100dvw
+  height 100dvh
+  letter-spacing .08em
+  // background-color #222627
+  background-color $black
+
+  // &__dialog
+  //   position absolute
+  //   top 50%
+  //   left 50%
+  //   z-index 1
+  //   width 382px
+  //   padding 20px
+  //   letter-spacing .05em
+  //   border-radius 6px
+  //   background-color $white
+  //   box-shadow 0px 8px 12px -3px rgba(0, 0, 0, .1)
+  //   transform translate3d(-50%, -50%, 0)
+
+  &__heading
+  &__text
+    color $white
+
+  &__heading
+    font-size 44px
+    font-weight 700
+    letter-spacing .1em
+
+  &__text
+    margin-top 10px
+    font-size 12px
+
+  &__buttons
+    margin-top 16px
+    font-size 14px
+
+  &__button
+    padding 8px 12px
+    border-radius 4px
+    box-shadow 0 1px 3px -1px rgba(0, 0, 0, .05)
+
+  &__button--ok
+    color $white
+    background-color #01a1c9
+
+  &__button--dont-allow
+    margin-left 10px
+    border 1px solid #dfdfdf
+    background-color $white
+

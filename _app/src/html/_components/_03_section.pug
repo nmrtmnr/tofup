@@ -1,0 +1,8 @@
+mixin section(id=null)
+  if id
+    section(
+      id=id
+      class=id
+    )
+      div(class=`${id}__inner`)&attributes(attributes)
+        block
