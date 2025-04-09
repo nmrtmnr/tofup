@@ -1,0 +1,1 @@
+const s=o=>{document.querySelector(".play").addEventListener("click",()=>{const e=new(window.AudioContext||window.webkitAudioContext),t=o,a=e.createMediaElementSource(t),n=e.createAnalyser();n.fftSize=2048;const c=new Uint8Array(n.frequencyBinCount);n.getByteTimeDomainData(c),a.connect(e.destination),t.play()})};export{s as default};
