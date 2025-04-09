@@ -1,0 +1,16 @@
+extend /_layouts/_default
+
+block vars
+  -
+    page = {
+      language: "ja",
+      id: "ascii",
+      categories: [],
+      path: "/ascii/"
+    }
+
+    moduleName = "ascii"
+
+block main
+
+  +section(page.id)(data-module=module(moduleName))

@@ -1,0 +1,50 @@
+{
+  "name": "@ist-tech/vite-plugin-pug",
+  "version": "1.0.4",
+  "description": "このpluginの説明を書く",
+  "repository": {
+    "type": "git",
+    "url": "https://i-studio.commits.jp/ist-tech/vite-plugins.git",
+    "directory": "plugins/vite-plugin-pug"
+  },
+  "type": "module",
+  "exports":{
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "scripts": {
+    "build": "unbuild"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "deepmerge": "^4.3.1",
+    "fs": "^0.0.1-security",
+    "glob": "^10.3.4",
+    "is-plain-object": "^5.0.0",
+    "path": "^0.12.7",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.9",
+    "@types/pug": "^2.0.6",
+    "typescript": "^5.2.2",
+    "unbuild": "^2.0.0",
+    "vite": "^4.4.9"
+  },
+  "peerDependencies": {
+    "vite": "^4.4.9",
+    "pug": "^3.0.2"
+  }
+}

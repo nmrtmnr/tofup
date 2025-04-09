@@ -1,0 +1,12 @@
+mixin error(options=null)
+  if options
+    if options.text && options.file
+    span.c-df-error
+      | ERROR: !{options.text}
+    br
+    span.c-df-error
+      | FILE: !{options.file}
+    br
+    span.c-df-error
+      | PAGEFILE: !{props.site}/!{props.page}/!{props.id}
+    br
