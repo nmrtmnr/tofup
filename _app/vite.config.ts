@@ -20,7 +20,7 @@ import deleteItems from "./plugins/deleteItems";
 import cloneDist from "./plugins/cloneDist";
 
 const getData = (): Object => {
-  let data = {};
+  let datas = {};
   const baseDir = path.resolve(__dirname, "src/data");
 
   const files = glob
@@ -41,14 +41,14 @@ const getData = (): Object => {
       for (const key of relativePaths.reverse()) {
         tempData = { [key]: tempData };
       }
-      data = deepmerge(data, tempData, {
+      datas = deepmerge(datas, tempData, {
         isMergeableObject: isPlainObject,
       });
     }
   }
 
-  log("data: ", JSON.stringify(data, null, 2));
-  return data;
+  log("datas: ", JSON.stringify(datas, null, 2));
+  return datas;
 };
 
 const deleteList: string[] = [];
@@ -94,7 +94,7 @@ export default ({ mode }) => {
       //   paths2css: [`./dist/${PROJECT_ROOT_PATH}/share/styles`],
       //   cssnanoConfig: { preset: "default" },
       // }),
-      // cloneDist("dist", mode),
+      cloneDist("dist", mode),
     ],
     build: {
       emptyOutDir: true,
@@ -103,9 +103,9 @@ export default ({ mode }) => {
       assetsInlineLimit: 0,
       rollupOptions: {
         output: {
-          dir: path.resolve(__dirname, `dist + "" ? "/" + "" + "/" : ""}`),
+          dir: path.resolve(__dirname, "dist"),
           chunkFileNames: () => {
-            return `/scripts/[name].js`;
+            return `scripts/[name].js`;
           },
           assetFileNames: (info) => {
             const imageRegExp = /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i;
