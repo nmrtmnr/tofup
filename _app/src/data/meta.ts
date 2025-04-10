@@ -50,6 +50,23 @@ const meta = {
     touch_icon: "",
     no_bot_crawl: false,
   },
+  "/emoji/": {
+    title: "emoji << TOFUP",
+    description: "",
+    keywords: "",
+    og: {
+      locale: "ja_JP",
+      url: "",
+      type: "article",
+      title: "",
+      description: "",
+      image: "",
+      site_name: "TOFUP",
+    },
+    favicon: "",
+    touch_icon: "",
+    no_bot_crawl: false,
+  },
   "/particle_movie/": {
     title: "particle_movie << TOFUP",
     description: "",
